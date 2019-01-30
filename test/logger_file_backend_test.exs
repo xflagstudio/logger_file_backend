@@ -53,6 +53,10 @@ defmodule LoggerFileBackendTest do
     assert log() =~ "ßﾪȢ"
   end
 
+  test "one line msg" do
+    Logger.debug("this is a msg\r\nwith line break")
+    assert log() =~ "this is a msgwith line break"
+  end
   test "prune/1" do
     assert prune(1) == "�"
     assert prune(<<"hí", 233>>) == "hí�"

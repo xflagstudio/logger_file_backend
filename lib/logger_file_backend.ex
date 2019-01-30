@@ -123,7 +123,7 @@ defmodule LoggerFileBackend do
 
 
   defp format_event(level, msg, ts, md, %{format: format, metadata: keys}) do
-    Logger.Formatter.format(format, level, msg, ts, take_metadata(md, keys))
+    Logger.Formatter.format(format, level, one_line(msg), ts, take_metadata(md, keys))
   end
 
   @doc false
@@ -198,4 +198,6 @@ defmodule LoggerFileBackend do
     do: prune_binary(t, <<acc::binary, @replacement>>)
   defp prune_binary(<<>>, acc),
     do: acc
+
+  defp one_line(msg), do: msg |> String.replace(~r/\r|\n/, "")
 end
