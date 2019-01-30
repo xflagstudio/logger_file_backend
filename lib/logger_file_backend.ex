@@ -199,5 +199,6 @@ defmodule LoggerFileBackend do
   defp prune_binary(<<>>, acc),
     do: acc
 
-  defp one_line(msg), do: msg |> String.replace(~r/\r|\n/, "")
+  defp one_line(msg) when is_binary(msg), do: msg |> String.replace(~r/\r|\n/, "")
+  defp one_line(msg), do: msg
 end
