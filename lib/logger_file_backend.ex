@@ -200,5 +200,10 @@ defmodule LoggerFileBackend do
     do: acc
 
   defp one_line(msg) when is_binary(msg), do: msg |> String.replace(~r/\r|\n/, "")
+  defp one_line([]), do: []
+  defp one_line([h|t]) when is_binary(h), do: [one_line(h)|one_line(t)]
+  defp one_line([h|t]) when is_binary(t), do: [one_line(h)|one_line(t)]
+  defp one_line([h|t]) when not is_binary(h), do: [h|one_line(t)]
+  defp one_line([h|t]) when not is_binary(t), do: [one_line(h)|t]
   defp one_line(msg), do: msg
 end
